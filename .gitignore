@@ -5,9 +5,13 @@ dist/
 # Dependencies
 node_modules/
 
-# Environment variables
+# Environment variables & secrets
 .env
 .env.production
+.env*.local
+*.pem
+*.key
+*.secret
 
 # macOS
 .DS_Store

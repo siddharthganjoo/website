@@ -1,5 +1,8 @@
 ---
 import { siteConfig } from '../data/site';
+
+const pathname = Astro.url.pathname;
+const isHome = pathname === '/' || pathname.endsWith('/index.html') || pathname === '';
 ---
 
 <nav class="nav">
@@ -7,7 +10,7 @@ import { siteConfig } from '../data/site';
   <div class="scroll-progress-bar" id="scroll-progress"></div>
 
   <div class="nav-container">
-    <a href="#hero" class="nav-logo">
+    <a href={isHome ? "#hero" : "./index.html#hero"} class="nav-logo">
       <span class="logo-badge">{siteConfig.initials}</span>
       <span class="nav-logo-text">{siteConfig.name}</span>
     </a>
@@ -21,7 +24,7 @@ import { siteConfig } from '../data/site';
     <ul class="nav-menu">
       {siteConfig.navLinks.map(link => (
         <li class="nav-item">
-          <a href={link.href} class="nav-link">{link.label}</a>
+          <a href={isHome ? link.href : `./index.html${link.href}`} class="nav-link">{link.label}</a>
         </li>
       ))}
 

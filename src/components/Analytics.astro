@@ -1,0 +1,38 @@
+---
+// Analytics.astro — Privacy-Preserving Analytics Adapter
+interface Props {
+  measurementId?: string;
+}
+
+const { measurementId = "" } = Astro.props;
+---
+
+<script define:vars={{ measurementId }}>
+  // Privacy-First Analytics Initializer
+  (function() {
+    // 1. Respect Do Not Track (DNT)
+    const dnt = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+    if (dnt === "1" || dnt === "yes") {
+      return;
+    }
+
+    // 2. Check Cookie/Privacy Consent
+    const consent = localStorage.getItem('cookie_consent_v1');
+    if (consent === 'declined') {
+      return;
+    }
+
+    // 3. Optional Google Analytics loader if measurementId provided
+    if (measurementId && measurementId.startsWith('G-')) {
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
+      document.head.appendChild(script);
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ window.dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', measurementId, { 'anonymize_ip': true });
+    }
+  })();
+</script>

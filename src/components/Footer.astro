@@ -2,22 +2,135 @@
 import { siteConfig } from '../data/site';
 ---
 
+<!-- Pre-Footer Conversion Call to Action -->
+<section class="pre-footer-cta">
+  <div class="pre-footer-card glass-card">
+    <span class="section-eyebrow"><i class="fas fa-handshake"></i> Let's Collaborate</span>
+    <h2 class="pre-footer-title">Ready to Scale High-Performance AI?</h2>
+    <p class="pre-footer-desc">
+      Whether you are exploring distributed deep learning on supercomputers, Spiking Neural Networks, or automated computer vision pipelines, let's connect and discuss your engineering goals.
+    </p>
+    <div class="pre-footer-actions">
+      <a href="#contact" class="btn btn-primary">
+        <i class="fas fa-paper-plane"></i> Get In Touch
+      </a>
+      <a href={siteConfig.socials.linkedin} target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+        <i class="fab fa-linkedin"></i> Connect on LinkedIn
+      </a>
+      <a href={siteConfig.resumeUrl} target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+        <i class="fas fa-file-pdf"></i> Resume
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Main Footer -->
 <footer class="footer">
-  <p>© 2026 {siteConfig.name}. All rights reserved.</p>
-  <p>{siteConfig.role} • {siteConfig.location}</p>
+  <div class="footer-container">
+    <div class="footer-main-row">
+      <div class="footer-info">
+        <p class="footer-brand"><strong>{siteConfig.name}</strong></p>
+        <p class="footer-sub">{siteConfig.role} • {siteConfig.location}</p>
+      </div>
+
+      <div class="footer-links">
+        <a href="./privacy.html" class="footer-link">Privacy Policy</a>
+        <span class="footer-sep">•</span>
+        <a href="./terms.html" class="footer-link">Terms &amp; Conditions</a>
+        <span class="footer-sep">•</span>
+        <a href={siteConfig.socials.github} target="_blank" rel="noopener noreferrer" class="footer-link">
+          <i class="fab fa-github"></i> GitHub
+        </a>
+        <span class="footer-sep">•</span>
+        <a href={siteConfig.socials.linkedin} target="_blank" rel="noopener noreferrer" class="footer-link">
+          <i class="fab fa-linkedin"></i> LinkedIn
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-bottom-row">
+      <p>© {new Date().getFullYear()} {siteConfig.name}. All rights reserved.</p>
+    </div>
+  </div>
 </footer>
 
 <style>
   .footer {
-    text-align: center;
-    padding: 1.5rem 1rem;
+    padding: 2.25rem 1.25rem 1.75rem;
     border-top: 1px solid var(--border);
+    background: var(--bg);
     color: var(--text-secondary);
     font-size: 0.8125rem;
   }
 
-  .footer p {
-    margin: 0.15rem 0;
+  .footer-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .footer-main-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .footer-brand {
+    font-size: 0.95rem;
+    color: var(--text);
+  }
+
+  .footer-sub {
+    font-size: 0.775rem;
+    color: var(--text-muted);
+  }
+
+  .footer-links {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-link {
+    color: var(--text-secondary);
+    transition: color 0.2s ease;
+  }
+
+  .footer-link:hover {
+    color: var(--accent);
+  }
+
+  .footer-sep {
+    color: var(--border);
+    font-size: 0.7rem;
+  }
+
+  .footer-bottom-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  @media (max-width: 640px) {
+    .footer-main-row {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .footer-bottom-row {
+      justify-content: center;
+      text-align: center;
+    }
   }
 </style>
-

@@ -5,16 +5,22 @@ import Footer from '../components/Footer.astro';
 import Lightbox from '../components/Lightbox.astro';
 import Toast from '../components/Toast.astro';
 import CommandPalette from '../components/CommandPalette.astro';
+import CookieConsent from '../components/CookieConsent.astro';
+import Analytics from '../components/Analytics.astro';
 import { siteConfig } from '../data/site';
 
 interface Props {
   title?: string;
   description?: string;
+  canonicalUrl?: string;
+  ogImage?: string;
 }
 
 const {
   title = siteConfig.title,
-  description = siteConfig.description
+  description = siteConfig.description,
+  canonicalUrl = siteConfig.url,
+  ogImage = "https://siddharthganjoo.github.io/assets/og-preview.png"
 } = Astro.props;
 ---
 
@@ -25,6 +31,11 @@ const {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>
   
+  <!-- Security: Force HTTPS across all requests -->
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+  <link rel="canonical" href={canonicalUrl} />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+
   <!-- SEO & Social Meta Tags -->
   <meta name="description" content={description} />
   <meta name="author" content={siteConfig.name} />
@@ -32,17 +43,22 @@ const {
   
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content={siteConfig.url} />
+  <meta property="og:url" content={canonicalUrl} />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
-  <meta property="og:image" content="assets/pp.JPG" />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Siddharth Ganjoo — Machine Learning Engineer & Data Scientist" />
+  <meta property="og:locale" content="en_US" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:url" content={siteConfig.url} />
+  <meta name="twitter:url" content={canonicalUrl} />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
-  <meta name="twitter:image" content="assets/pp.JPG" />
+  <meta name="twitter:image" content={ogImage} />
+  <meta name="twitter:image:alt" content="Siddharth Ganjoo — Machine Learning Engineer & Data Scientist" />
   
   <!-- Favicons -->
   <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png" />
@@ -123,6 +139,8 @@ const {
   <Lightbox />
   <Toast />
   <CommandPalette />
+  <CookieConsent />
+  <Analytics />
 
   <!-- Floating Back to Top Button -->
   <button id="back-to-top" class="back-to-top-btn" aria-label="Scroll back to top">

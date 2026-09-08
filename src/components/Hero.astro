@@ -6,7 +6,16 @@ import Terminal from './Terminal.astro';
 <section id="hero" class="hero">
   <div class="hero-container">
     <div class="hero-profile">
-      <img src="assets/pp.JPG" alt={siteConfig.name} class="profile-image" />
+      <img 
+        src="assets/pp.JPG" 
+        alt={`Portrait of ${siteConfig.name}, Machine Learning Engineer`} 
+        class="profile-image" 
+        width="104" 
+        height="104" 
+        loading="eager" 
+        fetchpriority="high" 
+        decoding="async" 
+      />
     </div>
     
     <div class="hero-badge">

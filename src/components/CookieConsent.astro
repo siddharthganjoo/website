@@ -1,0 +1,50 @@
+---
+// CookieConsent.astro — Privacy & Local Storage Consent Banner
+---
+
+<div id="cookie-consent-banner" class="cookie-banner" role="region" aria-label="Privacy & local storage consent">
+  <div class="cookie-text">
+    <i class="fas fa-shield-halved text-sky-400 mr-1"></i>
+    <strong>Privacy &amp; Preferences:</strong> This website uses local storage to remember your dark/light theme and keep the interactive SNN simulator responsive. No marketing or tracking cookies are collected. Read our <a href="./privacy.html">Privacy Policy</a>.
+  </div>
+  <div class="cookie-actions">
+    <button type="button" id="cookie-decline-btn" class="cookie-btn cookie-btn-decline">
+      Decline Non-Essential
+    </button>
+    <button type="button" id="cookie-accept-btn" class="cookie-btn cookie-btn-accept">
+      Accept &amp; Continue
+    </button>
+  </div>
+</div>
+
+<script>
+  const banner = document.getElementById('cookie-consent-banner');
+  const acceptBtn = document.getElementById('cookie-accept-btn');
+  const declineBtn = document.getElementById('cookie-decline-btn');
+
+  const CONSENT_KEY = 'cookie_consent_v1';
+
+  function initConsent() {
+    if (!banner) return;
+    const existing = localStorage.getItem(CONSENT_KEY);
+    if (!existing) {
+      // Delay slightly for smooth entrance
+      setTimeout(() => {
+        banner.classList.add('visible');
+      }, 1000);
+    }
+  }
+
+  function setConsent(value: 'accepted' | 'declined') {
+    localStorage.setItem(CONSENT_KEY, value);
+    if (banner) {
+      banner.classList.remove('visible');
+    }
+    window.dispatchEvent(new CustomEvent('cookie-consent-changed', { detail: { consent: value } }));
+  }
+
+  acceptBtn?.addEventListener('click', () => setConsent('accepted'));
+  declineBtn?.addEventListener('click', () => setConsent('declined'));
+
+  initConsent();
+</script>

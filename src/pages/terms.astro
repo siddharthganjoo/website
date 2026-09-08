@@ -1,0 +1,74 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { siteConfig } from '../data/site';
+---
+
+<Layout 
+  title={`Terms & Conditions | ${siteConfig.name}`}
+  description={`Terms of Use and conditions for visiting and interacting with ${siteConfig.name}'s personal portfolio and engineering research showcase.`}
+>
+  <div class="legal-container">
+    <div class="legal-back-nav">
+      <a href="./index.html" class="legal-back-link">
+        <i class="fas fa-arrow-left"></i> Back to Homepage
+      </a>
+    </div>
+
+    <header class="legal-header">
+      <span class="section-eyebrow"><i class="fas fa-file-contract"></i> Legal Agreement</span>
+      <h1 class="legal-title">Terms &amp; Conditions</h1>
+      <p class="legal-updated">Last updated: September 2026 • Eindhoven, Netherlands</p>
+    </header>
+
+    <article class="legal-content glass-card">
+      <h2>1. Acceptance of Terms</h2>
+      <p>
+        By accessing, viewing, or interacting with this website (<a href="https://siddharthganjoo.github.io/">siddharthganjoo.github.io</a>), 
+        you agree to be bound by these Terms &amp; Conditions and all applicable local, national, and international laws. If you do not agree with any of these terms, you are prohibited from using this site.
+      </p>
+
+      <h2>2. Intellectual Property &amp; Permitted Use</h2>
+      <p>
+        The textual content, technical case studies, design layouts, graphics, and proprietary implementations displayed on this website are the intellectual property of <strong>Siddharth Ganjoo</strong>, unless explicitly credited otherwise (such as third-party university or company trademarks and logos).
+      </p>
+      <ul>
+        <li>
+          <strong>Personal &amp; Non-Commercial Viewing:</strong> You are granted a limited license to browse and share links to this site for professional evaluation, recruitment, and educational review.
+        </li>
+        <li>
+          <strong>Open Source Software:</strong> Code repositories hosted on GitHub (<a href="https://github.com/siddharthganjoo" target="_blank" rel="noopener noreferrer">github.com/siddharthganjoo</a>) are governed by the specific open-source licenses attached to each repository (e.g., MIT, Apache 2.0).
+        </li>
+      </ul>
+
+      <h2>3. Interactive Lab &amp; Simulator Disclaimer</h2>
+      <p>
+        The interactive tools, such as the <strong>Spike-A &amp; Neuromorphic SNN Simulator</strong> and in-browser terminal console, are provided strictly for demonstration and educational purposes. While mathematical equations and hardware telemetry are modeled after real supercomputing and SNN research, the interactive visualizer is an educational approximation and does not guarantee identical performance on physical cluster hardware.
+      </p>
+
+      <h2>4. External Links &amp; Third-Party Services</h2>
+      <p>
+        This portfolio contains links to external platforms, including GitHub, LinkedIn, TU Eindhoven, and corporate project partners. Siddharth Ganjoo does not control, endorse, or assume responsibility for the content, privacy policies, or practices of any third-party websites.
+      </p>
+
+      <h2>5. Disclaimer of Warranties</h2>
+      <p>
+        This website is provided on an "as-is" and "as-available" basis without warranties of any kind, whether express or implied. Siddharth Ganjoo does not warrant that the website will be uninterrupted, error-free, or completely free of technical bugs.
+      </p>
+
+      <h2>6. Limitation of Liability</h2>
+      <p>
+        To the maximum extent permitted by applicable law, in no event shall Siddharth Ganjoo be liable for any direct, indirect, incidental, or consequential damages arising out of the use or inability to use this website, its research demonstrations, or linked codebases.
+      </p>
+
+      <h2>7. Governing Law &amp; Jurisdiction</h2>
+      <p>
+        These Terms &amp; Conditions shall be governed by and construed in accordance with the laws of the <strong>Netherlands</strong>. Any legal action or proceeding relating to your access to or use of the website shall be instituted in the competent courts of 's-Hertogenbosch / Oost-Brabant, Netherlands.
+      </p>
+
+      <h2>8. Contact</h2>
+      <p>
+        If you have questions regarding these terms, please contact Siddharth Ganjoo through the contact form on this website or via <a href="https://www.linkedin.com/in/siddharthganjoo/" target="_blank" rel="noopener noreferrer">LinkedIn</a>.
+      </p>
+    </article>
+  </div>
+</Layout>

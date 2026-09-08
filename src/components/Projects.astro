@@ -34,7 +34,14 @@ import { siteConfig } from '../data/site';
       {projectsData.map(project => (
         <div class={`project-card ${project.isFeatured ? 'featured' : ''}`} data-category={project.category}>
           <div class="project-image">
-            <img src={project.image} alt={project.title} />
+            <img 
+              src={project.image} 
+              alt={`Architecture diagram and preview of ${project.title}`} 
+              loading="lazy" 
+              decoding="async" 
+              width="400" 
+              height="200" 
+            />
           </div>
           <div class="project-content">
             <div>

@@ -41,7 +41,7 @@ import { timelineData } from '../data/timeline';
               <div class="timeline-org-row">
                 {item.logoImg && (
                   <div class="timeline-logo-wrap">
-                    <img src={item.logoImg} alt={item.orgName} />
+                    <img src={item.logoImg} alt={`${item.orgName} organization logo`} loading="lazy" decoding="async" width="36" height="36" />
                   </div>
                 )}
                 {item.logoBadge && (
@@ -62,7 +62,7 @@ import { timelineData } from '../data/timeline';
             <div class="timeline-body">
               {item.mediaImg && (
                 <div class="timeline-media" title="Click to enlarge photo">
-                  <img src={item.mediaImg} alt={item.mediaAlt || item.roleTitle} />
+                  <img src={item.mediaImg} alt={item.mediaAlt || `Photograph from ${item.roleTitle} at ${item.orgName}`} loading="lazy" decoding="async" width="600" height="160" />
                   <span class="media-zoom-pill"><i class="fas fa-magnifying-glass-plus"></i> Enlarge</span>
                 </div>
               )}

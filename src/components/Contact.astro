@@ -14,26 +14,34 @@ import { siteConfig } from '../data/site';
 
     <!-- Contact Form Card -->
     <div class="contact-card glass-card">
-      <form id="contact-form" class="contact-form" action="https://formspree.io/f/xbjnqzzq" method="POST">
+      <form id="contact-form" class="contact-form" action="https://formspree.io/f/xbjnqzzq" method="POST" novalidate>
+        <!-- Spam Honeypot for Formspree & bots (hidden from humans) -->
+        <input type="text" name="_gotcha" style="display:none !important" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <input type="hidden" name="_ts" id="form-ts" value="" />
+
         <div class="form-row">
           <div class="form-group">
             <label for="form-name">Your Name</label>
-            <input type="text" id="form-name" name="name" required placeholder="e.g. Alex van den Berg" autocomplete="name" />
+            <input type="text" id="form-name" name="name" required minlength="2" placeholder="e.g. Alex van den Berg" autocomplete="name" />
+            <span class="field-error" id="err-name"></span>
           </div>
           <div class="form-group">
             <label for="form-email">Your Email Address</label>
             <input type="email" id="form-email" name="email" required placeholder="e.g. alex@example.com" autocomplete="email" />
+            <span class="field-error" id="err-email"></span>
           </div>
         </div>
 
         <div class="form-group">
           <label for="form-subject">Subject</label>
-          <input type="text" id="form-subject" name="subject" required placeholder="e.g. Machine Learning Opportunity / SNN Collaboration" />
+          <input type="text" id="form-subject" name="subject" required minlength="3" placeholder="e.g. Machine Learning Opportunity / SNN Collaboration" />
+          <span class="field-error" id="err-subject"></span>
         </div>
 
         <div class="form-group">
           <label for="form-message">Your Message</label>
-          <textarea id="form-message" name="message" rows="5" required placeholder="Tell me about your team, problem space, or project..."></textarea>
+          <textarea id="form-message" name="message" rows="5" required minlength="10" placeholder="Tell me about your team, problem space, or project..."></textarea>
+          <span class="field-error" id="err-message"></span>
         </div>
 
         <button type="submit" id="form-submit-btn" class="btn btn-primary submit-btn">
@@ -41,7 +49,7 @@ import { siteConfig } from '../data/site';
         </button>
 
         <!-- Form Status Notification -->
-        <div id="form-status" class="form-status"></div>
+        <div id="form-status" class="form-status" role="status" aria-live="polite"></div>
       </form>
 
       <!-- Alternative Direct Connections -->
@@ -219,6 +227,25 @@ import { siteConfig } from '../data/site';
     color: var(--text);
   }
 
+  .field-error {
+    font-size: 0.725rem;
+    color: #ef4444;
+    min-height: 1rem;
+    display: block;
+    margin-top: 0.15rem;
+    font-weight: 500;
+  }
+
+  .form-group input:user-invalid,
+  .form-group textarea:user-invalid {
+    border-color: #ef4444;
+  }
+
+  .form-group input:user-valid,
+  .form-group textarea:user-valid {
+    border-color: rgba(16, 185, 129, 0.4);
+  }
+
   .social-pill.location {
     cursor: default;
     border-color: transparent;
@@ -240,17 +267,107 @@ import { siteConfig } from '../data/site';
   const form = document.getElementById('contact-form') as HTMLFormElement | null;
   const statusDiv = document.getElementById('form-status');
   const submitBtn = document.getElementById('form-submit-btn');
+  const tsInput = document.getElementById('form-ts') as HTMLInputElement | null;
+
+  // Track render timestamp for bot prevention
+  const pageRenderTime = Date.now();
+  if (tsInput) tsInput.value = pageRenderTime.toString();
+
+  // Inputs
+  const nameInput = document.getElementById('form-name') as HTMLInputElement | null;
+  const emailInput = document.getElementById('form-email') as HTMLInputElement | null;
+  const subjectInput = document.getElementById('form-subject') as HTMLInputElement | null;
+  const msgInput = document.getElementById('form-message') as HTMLTextAreaElement | null;
+
+  const errName = document.getElementById('err-name');
+  const errEmail = document.getElementById('err-email');
+  const errSubject = document.getElementById('err-subject');
+  const errMsg = document.getElementById('err-message');
+
+  function validateEmail(email: string): boolean {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+  }
+
+  function validateForm(): boolean {
+    let isValid = true;
+
+    // Name
+    if (!nameInput || nameInput.value.trim().length < 2) {
+      if (errName) errName.textContent = 'Please enter your name (at least 2 characters).';
+      isValid = false;
+    } else if (errName) {
+      errName.textContent = '';
+    }
+
+    // Email
+    if (!emailInput || !validateEmail(emailInput.value)) {
+      if (errEmail) errEmail.textContent = 'Please enter a valid email address.';
+      isValid = false;
+    } else if (errEmail) {
+      errEmail.textContent = '';
+    }
+
+    // Subject
+    if (!subjectInput || subjectInput.value.trim().length < 3) {
+      if (errSubject) errSubject.textContent = 'Please provide a subject.';
+      isValid = false;
+    } else if (errSubject) {
+      errSubject.textContent = '';
+    }
+
+    // Message
+    if (!msgInput || msgInput.value.trim().length < 10) {
+      if (errMsg) errMsg.textContent = 'Message must be at least 10 characters.';
+      isValid = false;
+    } else if (errMsg) {
+      errMsg.textContent = '';
+    }
+
+    return isValid;
+  }
+
+  // Clear errors on input
+  nameInput?.addEventListener('input', () => { if (errName) errName.textContent = ''; });
+  emailInput?.addEventListener('input', () => { if (errEmail) errEmail.textContent = ''; });
+  subjectInput?.addEventListener('input', () => { if (errSubject) errSubject.textContent = ''; });
+  msgInput?.addEventListener('input', () => { if (errMsg) errMsg.textContent = ''; });
 
   if (form && statusDiv) {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      // 1. Spam protection: Honeypot check
+      const formData = new FormData(form);
+      const honeypot = formData.get('_gotcha');
+      if (honeypot && typeof honeypot === 'string' && honeypot.length > 0) {
+        // Silently discard bot submission
+        form.reset();
+        statusDiv.className = 'form-status success';
+        statusDiv.innerHTML = '<i class="fas fa-check-circle"></i> Thank you! Your message has been sent successfully.';
+        return;
+      }
+
+      // 2. Spam protection: Bot submission speed check (< 1.5 seconds)
+      const elapsed = Date.now() - pageRenderTime;
+      if (elapsed < 1500) {
+        statusDiv.className = 'form-status error';
+        statusDiv.innerHTML = '<i class="fas fa-triangle-exclamation"></i> Submission rejected: Automated submission detected.';
+        return;
+      }
+
+      // 3. Client-side Form Validation
+      if (!validateForm()) {
+        statusDiv.className = 'form-status error';
+        statusDiv.innerHTML = '<i class="fas fa-triangle-exclamation"></i> Please fix the highlighted fields above.';
+        return;
+      }
+
       if (submitBtn) {
         submitBtn.setAttribute('disabled', 'true');
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
       }
 
       try {
-        const formData = new FormData(form);
         const response = await fetch(form.action, {
           method: 'POST',
           body: formData,

@@ -13,7 +13,7 @@ import { recommendationsData } from '../data/recommendations';
     <div class="recommendations-grid">
       {recommendationsData.map(rec => (
         <div class="recommendation-card">
-          <img src={rec.photo} alt={rec.name} class="recommender-photo" />
+          <img src={rec.photo} alt={`Recommendation photo of ${rec.name}`} class="recommender-photo" width="64" height="64" loading="lazy" decoding="async" />
           <div class="recommendation-content">
             <p class="recommendation-text">"{rec.quote}"</p>
             <h4>{rec.name}</h4>
